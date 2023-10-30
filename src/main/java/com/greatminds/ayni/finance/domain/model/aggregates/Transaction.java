@@ -1,6 +1,5 @@
 package com.greatminds.ayni.finance.domain.model.aggregates;
 
-import com.greatminds.ayni.finance.interfaces.rest.resources.CreateTransactionResource;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -8,12 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Transaction extends AbstractAggregateRoot<Transaction> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     private String costName;
@@ -40,13 +39,6 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
     public Transaction() {
 
     }
-
-    public String getCostName(){return this.costName;}
-    public String getDescription(){return this.description;}
-    public String getType(){return this.type;}
-    public Double getPrice(){return this.price;}
-    public Date getDate(){return this.date;}
-    public Integer getQuantity(){return this.quantity;}
 
     public void update(Transaction request) {
         if (request.costName != null) {
