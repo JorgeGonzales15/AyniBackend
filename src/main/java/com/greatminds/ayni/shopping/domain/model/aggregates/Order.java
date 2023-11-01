@@ -13,33 +13,45 @@ import java.util.Date;
 public class Order extends AbstractAggregateRoot<Order> {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     private Long saleId;
 
+    @Getter
     private Long orderedBy;
 
+    @Getter
     private Long acceptedBy;
 
+    @Getter
     private String description;
 
+    @Getter
     private Integer quantity;
 
+    @Getter
     private String status;
 
+    @Getter
     private Date orderedDate;
 
+    @Getter
     private Double totalPrice;
 
+    @Getter
     private String paymentMethod;
 
-    public Order(String description, Double totalPrice, Integer quantity, String paymentMethod, String status, Long saleId) {
+    public Order(String description, Double totalPrice, Integer quantity, String paymentMethod, String status, Long saleId, Long orderedBy, Long acceptedBy, Date orderedDate) {
         this.description = description;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
         this.status = status;
+        this.orderedBy = orderedBy;
+        this.acceptedBy = acceptedBy;
         this.saleId = saleId;
     }
 

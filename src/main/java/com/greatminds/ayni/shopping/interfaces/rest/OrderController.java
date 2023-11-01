@@ -2,6 +2,7 @@ package com.greatminds.ayni.shopping.interfaces.rest;
 
 import com.greatminds.ayni.shopping.domain.model.aggregates.Order;
 import com.greatminds.ayni.shopping.domain.model.commands.CreateOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.queries.GetAllOrdersQuery;
 import com.greatminds.ayni.shopping.domain.model.queries.GetOrderByIdQuery;
 import com.greatminds.ayni.shopping.domain.services.OrderCommandService;
 import com.greatminds.ayni.shopping.domain.services.OrderQueryService;
@@ -37,16 +38,23 @@ public class OrderController {
         var createOrderCommand = CreateOrderCommandFromResourceAssembler.toCommandFromResource(resource);
 
         var orderId = orderCommandService.handle(createOrderCommand);
-        if(orderId == 0L){return ResponseEntity.badRequest().build();}
+        if(orderId == 0L){
+            return ResponseEntity.badRequest().build();
+        }
+
         var getOrderIdByQuery = new GetOrderByIdQuery(orderId);
         var order = orderQueryService.handle(getOrderIdByQuery);
-        if(order.isEmpty()){ return ResponseEntity.badRequest().build();}
+
+        if(order.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
         var orderResource = OrderResourceFromEntityAssembler.toResourceFromEntity(order.get());
         return new ResponseEntity<>(orderResource, HttpStatus.CREATED);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResource> getTransactionById(@PathVariable Long orderId) {
+    public ResponseEntity<OrderResource> getOrderById(@PathVariable Long orderId) {
         var getOrderIdByQuery = new GetOrderByIdQuery(orderId);
         var order = orderQueryService.handle(getOrderIdByQuery);
         if (order.isEmpty()) {
@@ -56,16 +64,12 @@ public class OrderController {
         return ResponseEntity.ok(orderResource);
     }
 
-    @GetMapping("/orders")
+    @GetMapping
     public ResponseEntity<List<OrderResource>> getAllOrders() {
-        List<Order> orders = orderQueryService.getAllOrders();
-
-        if (orders.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<OrderResource> orderResources = OrderResourceFromEntityAssembler.toResourceListFromEntities(orders);
-        return ResponseEntity.ok(orderResources);
+        var getAllOrdersQuery = new GetAllOrdersQuery();
+        var orders = orderQueryService.handle(getAllOrdersQuery);
+        var ordersResources = orders.stream().map(OrderResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
+        return ResponseEntity.ok(ordersResources);
     }
 
     @PutMapping("/orders/{orderId}")

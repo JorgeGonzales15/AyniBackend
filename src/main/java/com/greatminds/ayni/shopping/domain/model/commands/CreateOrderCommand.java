@@ -1,10 +1,7 @@
 package com.greatminds.ayni.shopping.domain.model.commands;
 
-import lombok.Getter;
-
 import java.util.Date;
 
-@Getter
-public record CreateOrderCommand(String description, Integer quantity, double totalPrice, String paymentMethod, String status, Long saleId) {
+public record CreateOrderCommand(String description, Double totalPrice, Integer quantity,  String paymentMethod, String status, Long saleId, Long orderedBy, Long acceptedBy, Date orderedDate) {
 
 }

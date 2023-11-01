@@ -8,7 +8,6 @@ public interface OrderCommandService {
 
     Long handle(CreateOrderCommand command);
 
-
     Long deleteOrder(Long orderId);
 
     Long updateOrder(Long orderId, UpdateOrderResource request);
