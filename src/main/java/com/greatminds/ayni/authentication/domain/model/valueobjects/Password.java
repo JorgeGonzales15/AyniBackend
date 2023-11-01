@@ -1,15 +1,14 @@
 package com.greatminds.ayni.authentication.domain.model.valueobjects;
+
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Embeddable
-public record EmailAddress(
+public record Password (
         @NotBlank
-        @Size(max = 50)
-        @Email
-        String email
+        @Size(max = 120)
+        String password
 ) {
-    public EmailAddress() { this(null); }
+    public Password() { this(null); }
 }
