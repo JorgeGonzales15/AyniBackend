@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class OrderResourceFromEntityAssembler {
 
     public static OrderResource toResourceFromEntity(Order entity) {
-        return new OrderResource(entity.getId(), entity.getDescription(), entity.getQuantity(), entity.getTotalPrice(), entity.getPaymentMethod());
+        return new OrderResource(entity.getId(), entity.getDescription(), entity.getTotalPrice(), entity.getQuantity(), entity.getPaymentMethod(), entity.getStatus(), entity.getSaleId(), entity.getOrderedBy(), entity.getAcceptedBy(), entity.getOrderedDate());
     }
 
     public static List<OrderResource> toResourceListFromEntities(List<Order> orders) {

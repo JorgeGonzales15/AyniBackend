@@ -20,7 +20,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     @Override
     public Long handle(CreateOrderCommand command) {
         Date currentDate = new Date();
-        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), command.saleId());
+        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), command.saleId(), command.orderedBy(), command.acceptedBy(), currentDate);
         order.updateDate(currentDate);
         orderRepository.save(order);
         return order.getId();
@@ -37,11 +37,16 @@ public class OrderCommandServiceImpl implements OrderCommandService {
 
     @Override
     public Long updateOrder(Long orderId, UpdateOrderResource request) {
+        return null;
+    }
+
+    /*@Override
+    public Long updateOrder(Long orderId, UpdateOrderResource request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found"));
 
-        order.update(new Order(request.description(), request.totalPrice(), request.quantity(), request.paymentMethod() , request.status(), request.saleId()));
+        order.update(new Order(request.getDescription(), request.getTotalPrice(), request.getQuantity(), request.getPaymentMethod(), request.getStatus(), request.getSaleId(), request.getOrderedBy(), request.getAcceptedBy(), request.getOrderedDate())
         orderRepository.save(order);
         return order.getId();
-    }
+    }*/
 }

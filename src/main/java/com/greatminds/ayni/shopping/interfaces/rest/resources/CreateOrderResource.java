@@ -1,8 +1,6 @@
 package com.greatminds.ayni.shopping.interfaces.rest.resources;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import java.util.Date;
 
-@Data
-public record CreateOrderResource(String description, Integer quantity, double totalPrice, String paymentMethod, String status, Long saleId) {
+public record CreateOrderResource(String description, Double totalPrice, Integer quantity, String paymentMethod, String status, Long saleId, Long orderedBy, Long acceptedBy, Date orderedDate) {
 }

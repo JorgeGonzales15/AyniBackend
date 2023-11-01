@@ -1,6 +1,7 @@
 package com.greatminds.ayni.shopping.application.internal.queryservices;
 
 import com.greatminds.ayni.shopping.domain.model.aggregates.Order;
+import com.greatminds.ayni.shopping.domain.model.queries.GetAllOrdersQuery;
 import com.greatminds.ayni.shopping.domain.model.queries.GetOrderByIdQuery;
 import com.greatminds.ayni.shopping.domain.model.queries.GetOrderBySaleIdQuery;
 import com.greatminds.ayni.shopping.domain.services.OrderQueryService;
@@ -28,8 +29,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
     }
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<Order> handle(GetAllOrdersQuery query) {
         return orderRepository.findAll();
     }
-
 }

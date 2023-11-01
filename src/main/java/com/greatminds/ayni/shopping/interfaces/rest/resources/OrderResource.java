@@ -1,4 +1,6 @@
 package com.greatminds.ayni.shopping.interfaces.rest.resources;
 
-public record OrderResource(Long Id, String description, Integer quantity, double totalPrice, String paymentMethod) {
+import java.util.Date;
+
+public record OrderResource(Long id, String description, Double totalPrice, Integer quantity, String paymentMethod, String status, Long saleId, Long orderedBy, Long acceptedBy, Date orderedDate){
 }
