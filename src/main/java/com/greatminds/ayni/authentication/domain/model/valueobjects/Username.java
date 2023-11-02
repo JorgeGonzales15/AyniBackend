@@ -11,4 +11,3 @@ public record Username(
         String username
 ) {
     public Username() { this(null); }
-}
