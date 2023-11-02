@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/crops", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Crop", description = "Crop Management Endpoints")
+@Tag(name = "Crops", description = "Crops Management Endpoints")
 public class CropController {
     private final CropQueryService cropQueryService;
     private final CropCommandService cropCommandService;

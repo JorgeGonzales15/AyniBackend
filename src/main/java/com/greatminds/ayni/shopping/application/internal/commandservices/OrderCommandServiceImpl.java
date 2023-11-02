@@ -1,6 +1,8 @@
 package com.greatminds.ayni.shopping.application.internal.commandservices;
 
 import com.greatminds.ayni.shopping.domain.model.commands.CreateOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.queries.GetSaleByIdQuery;
+import com.greatminds.ayni.shopping.domain.services.SaleQueryService;
 import com.greatminds.ayni.shopping.interfaces.rest.resources.UpdateOrderResource;
 import com.greatminds.ayni.shopping.domain.model.aggregates.Order;
 import com.greatminds.ayni.shopping.domain.services.OrderCommandService;
@@ -13,14 +15,18 @@ import java.util.Date;
 public class OrderCommandServiceImpl implements OrderCommandService {
 
     private final OrderRepository orderRepository;
-    public OrderCommandServiceImpl(OrderRepository orderRepository) {
+    private final SaleQueryService saleQueryService;
+    public OrderCommandServiceImpl(OrderRepository orderRepository, SaleQueryService saleQueryService) {
         this.orderRepository = orderRepository;
+        this.saleQueryService = saleQueryService;
     }
 
     @Override
     public Long handle(CreateOrderCommand command) {
+        var getSaleByIdQuery = new GetSaleByIdQuery(command.saleId());
+        var sale = saleQueryService.handle(getSaleByIdQuery).orElseThrow();
         Date currentDate = new Date();
-        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), command.saleId(), command.orderedBy(), command.acceptedBy(), currentDate);
+        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), sale, command.orderedBy(), command.acceptedBy(), currentDate);
         order.updateDate(currentDate);
         orderRepository.save(order);
         return order.getId();

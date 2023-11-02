@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Order", description = "Order Management Endpoints")
+@Tag(name = "Orders", description = "Orders Management Endpoints")
 public class OrderController {
     private final OrderQueryService orderQueryService;
     private final OrderCommandService orderCommandService;
@@ -53,6 +53,14 @@ public class OrderController {
         return new ResponseEntity<>(orderResource, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<OrderResource>> getAllOrders() {
+        var getAllOrdersQuery = new GetAllOrdersQuery();
+        var orders = orderQueryService.handle(getAllOrdersQuery);
+        var ordersResources = orders.stream().map(OrderResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
+        return ResponseEntity.ok(ordersResources);
+    }
+
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResource> getOrderById(@PathVariable Long orderId) {
         var getOrderIdByQuery = new GetOrderByIdQuery(orderId);
@@ -62,14 +70,6 @@ public class OrderController {
         }
         var orderResource = OrderResourceFromEntityAssembler.toResourceFromEntity(order.get());
         return ResponseEntity.ok(orderResource);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<OrderResource>> getAllOrders() {
-        var getAllOrdersQuery = new GetAllOrdersQuery();
-        var orders = orderQueryService.handle(getAllOrdersQuery);
-        var ordersResources = orders.stream().map(OrderResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
-        return ResponseEntity.ok(ordersResources);
     }
 
     @PutMapping("/orders/{orderId}")
