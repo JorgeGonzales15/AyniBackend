@@ -1,16 +1,14 @@
 package com.greatminds.ayni.shopping.domain.model.aggregates;
 
+import com.greatminds.ayni.shopping.domain.model.entities.Sale;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
-@Getter
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Order extends AbstractAggregateRoot<Order> {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @Getter
@@ -18,7 +16,9 @@ public class Order extends AbstractAggregateRoot<Order> {
     private Long id;
 
     @Getter
-    private Long saleId;
+    @ManyToOne
+    @JoinColumn(name = "sale_id", nullable = false)
+    private Sale sale;
 
     @Getter
     private Long orderedBy;
@@ -30,7 +30,7 @@ public class Order extends AbstractAggregateRoot<Order> {
     private String description;
 
     @Getter
-    private Integer quantity;
+    private Long quantity;
 
     @Getter
     private String status;
@@ -44,7 +44,7 @@ public class Order extends AbstractAggregateRoot<Order> {
     @Getter
     private String paymentMethod;
 
-    public Order(String description, Double totalPrice, Integer quantity, String paymentMethod, String status, Long saleId, Long orderedBy, Long acceptedBy, Date orderedDate) {
+    public Order(String description, Double totalPrice, Long quantity, String paymentMethod, String status, Sale sale, Long orderedBy, Long acceptedBy, Date orderedDate) {
         this.description = description;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
@@ -52,33 +52,11 @@ public class Order extends AbstractAggregateRoot<Order> {
         this.status = status;
         this.orderedBy = orderedBy;
         this.acceptedBy = acceptedBy;
-        this.saleId = saleId;
+        this.sale = sale;
     }
 
     public Order() {
 
-    }
-
-    public void update(Order request) {
-
-        if (request.description != null) {
-            this.description = request.description;
-        }
-        if (request.quantity != null) {
-            this.quantity = request.quantity;
-        }
-        if (request.totalPrice != null) {
-            this.totalPrice = request.totalPrice;
-        }
-        if (request.paymentMethod != null) {
-            this.paymentMethod = request.paymentMethod;
-        }
-        if (request.status != null) {
-            this.status = request.status;
-        }
-        if (request.paymentMethod != null) {
-            this.saleId = request.saleId;
-        }
     }
 
     public void updateDate(Date currentDate) {
