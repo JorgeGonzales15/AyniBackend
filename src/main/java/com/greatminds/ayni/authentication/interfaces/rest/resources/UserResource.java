@@ -1,6 +1,6 @@
 package com.greatminds.ayni.authentication.interfaces.rest.resources;
 
-import com.greatminds.ayni.authentication.domain.model.aggregates.Role;
+import com.greatminds.ayni.authentication.domain.model.valueobjects.Role;
 
 import java.util.Set;
 
