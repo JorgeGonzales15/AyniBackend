@@ -14,7 +14,7 @@ public record CreateUserResource(
         @Size(max = 50)
         @Email
         String email,
-        Set<String> role,
+        String role,
         @NotBlank
         @Size(min = 6, max = 40)
         String password

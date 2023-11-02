@@ -1,15 +1,12 @@
 package com.greatminds.ayni.authentication.application.internal.commandservices;
 
-import com.greatminds.ayni.authentication.domain.model.aggregates.Role;
 import com.greatminds.ayni.authentication.domain.model.aggregates.User;
 import com.greatminds.ayni.authentication.domain.model.commands.AuthenticateUserCommand;
 import com.greatminds.ayni.authentication.domain.model.commands.CreateUserCommand;
 import com.greatminds.ayni.authentication.domain.model.payload.response.JwtResponse;
-import com.greatminds.ayni.authentication.domain.model.valueobjects.ERole;
 import com.greatminds.ayni.authentication.domain.model.valueobjects.EmailAddress;
 import com.greatminds.ayni.authentication.domain.model.valueobjects.Username;
 import com.greatminds.ayni.authentication.domain.services.UserCommandService;
-import com.greatminds.ayni.authentication.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.greatminds.ayni.authentication.infrastructure.persistence.jpa.repositories.UserRepository;
 import com.greatminds.ayni.authentication.infrastructure.security.jwt.JwtUtils;
 import com.greatminds.ayni.authentication.infrastructure.security.services.UserDetailsImpl;
@@ -21,16 +18,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -40,10 +34,8 @@ public class UserCommandServiceImpl implements UserCommandService {
     PasswordEncoder encoder;
 
     public UserCommandServiceImpl(
-            UserRepository userRepository,
-            RoleRepository roleRepository){
+            UserRepository userRepository){
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
     @Override
     public Long handle(CreateUserCommand command) {
@@ -58,40 +50,13 @@ public class UserCommandServiceImpl implements UserCommandService {
         }
 
         // Create a new User Account:
-        User user = new User(command.username(), command.email(), encoder.encode(command.password()));
-        Set<String> strRoles = command.role();
-        Set<Role> roles = new HashSet<>();
+        User user = new User(
+                command.username(),
+                command.email(),
+                encoder.encode(command.password()),
+                command.role()
+        );
 
-        if (strRoles == null){
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-                        roles.add(adminRole);
-                        break;
-                    case "merchant":
-                        Role merchantRole = roleRepository.findByName(ERole.ROLE_MERCHANT)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-                        roles.add(merchantRole);
-                        break;
-                    case "farmer":
-                        Role farmerRole = roleRepository.findByName(ERole.ROLE_FARMER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-                        roles.add(farmerRole);
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-                        roles.add(userRole);
-                }
-            });
-        }
-        user.setRoles(roles);
         userRepository.save(user);
 
         return user.getId();
@@ -105,7 +70,8 @@ public class UserCommandServiceImpl implements UserCommandService {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return new JwtResponse(
