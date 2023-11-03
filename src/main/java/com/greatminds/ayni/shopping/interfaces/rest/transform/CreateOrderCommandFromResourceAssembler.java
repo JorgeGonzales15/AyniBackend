@@ -5,6 +5,6 @@ import com.greatminds.ayni.shopping.interfaces.rest.resources.CreateOrderResourc
 
 public class CreateOrderCommandFromResourceAssembler {
     public static CreateOrderCommand toCommandFromResource(CreateOrderResource resource){
-        return new CreateOrderCommand(resource.description(), resource.totalPrice(), resource.quantity(), resource.paymentMethod(), resource.status(), resource.saleId(), resource.orderedBy(), resource.acceptedBy(), resource.orderedDate());
+        return new CreateOrderCommand(resource.description(), resource.totalPrice(), resource.quantity(), resource.paymentMethod(), resource.saleId(), resource.orderedBy(), resource.acceptedBy(), resource.orderedDate());
     }
 }

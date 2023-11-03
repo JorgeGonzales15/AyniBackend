@@ -25,12 +25,12 @@ public class OrderQueryServiceImpl implements OrderQueryService {
     }
 
     @Override
-    public Optional<Order> handle(GetOrderBySaleIdQuery query) {
-        return orderRepository.findById(query.saleId());
+    public List<Order> handle(GetAllOrdersQuery query) {
+        return orderRepository.findAll();
     }
 
     @Override
-    public List<Order> handle(GetAllOrdersQuery query) {
-        return orderRepository.findAll();
+    public Optional<Order> handle(GetOrderBySaleIdQuery query) {
+        return orderRepository.findOrderBySaleIdAndId(query.saleId(), query.orderId());
     }
 }
