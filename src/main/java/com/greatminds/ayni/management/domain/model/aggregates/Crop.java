@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
+@Table(name = "crops")
 public class Crop {
 
     @Id
