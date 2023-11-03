@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
-    Optional<Crop> findByProductId(Long productId);
+    Optional<Crop> findCropByProductIdAndId(Long productId, Long cropId);
     List<Crop> findAllByProductId(Long productId);
 }

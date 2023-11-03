@@ -10,6 +10,7 @@ import com.greatminds.ayni.authentication.interfaces.rest.transform.Authenticate
 import com.greatminds.ayni.authentication.interfaces.rest.transform.AuthenticationResourceFromAuthenticationResponseAssembler;
 import com.greatminds.ayni.authentication.interfaces.rest.transform.CreateUserCommandFromResourceAssembler;
 import com.greatminds.ayni.authentication.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@Tag(name = "Authentication", description = "Authentication endpoints")
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired

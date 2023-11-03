@@ -6,6 +6,6 @@ public record CreateUserCommand(
         String username,
         String email,
         String password,
-        Set<String> role
+        String role
 ) {
 }
