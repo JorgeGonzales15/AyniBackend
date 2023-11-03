@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@Table(name= "transactions")
 public class Transaction extends AbstractAggregateRoot<Transaction> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/transactions", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Financial Transactions", description = "Financial Transactions Management Endpoints")
+@Tag(name = "Transactions", description = "Financial Transactions Management Endpoints")
 public class TransactionController {
     private final TransactionQueryService transactionQueryService;
     private final TransactionCommandService transactionCommandService;
