@@ -67,16 +67,18 @@ public class OrderCommandServiceImpl implements OrderCommandService {
 
     @Override
     public Long updateOrder(Long orderId, UpdateOrderResource request) {
-        return null;
-    }
-
-    /*@Override
-    public Long updateOrder(Long orderId, UpdateOrderResource request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found"));
-
-        order.update(new Order(request.getDescription(), request.getTotalPrice(), request.getQuantity(), request.getPaymentMethod(), request.getStatus(), request.getSaleId(), request.getOrderedBy(), request.getAcceptedBy(), request.getOrderedDate())
-        orderRepository.save(order);
-        return order.getId();
-    }*/
+        if(order.getStatus().equals("pending")) {
+            var getSaleByIdQuery = new GetSaleByIdQuery(request.saleId());
+            var sale = saleQueryService.handle(getSaleByIdQuery).orElseThrow();
+            Date currentDate = new Date();
+            order.update(new Order(request.description(), request.totalPrice(), request.quantity(), request.paymentMethod(), sale, request.orderedBy(), request.acceptedBy(), currentDate));
+            order.updateDate(currentDate);
+            orderRepository.save(order);
+            return order.getId();
+        } else {
+            throw new IllegalArgumentException("Only pending orders can be updated");
+        }
+    }
 }
