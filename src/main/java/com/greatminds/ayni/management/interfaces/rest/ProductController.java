@@ -40,15 +40,15 @@ public class ProductController {
             return ResponseEntity.badRequest().build();
         }
 
-        var getTransactionIdByQuery = new GetProductByIdQuery(productId);
-        var transaction = productQueryService.handle(getTransactionIdByQuery);
+        var getProductByIdQuery = new GetProductByIdQuery(productId);
+        var product = productQueryService.handle(getProductByIdQuery);
 
-        if(transaction.isEmpty()){
+        if(product.isEmpty()){
             return ResponseEntity.badRequest().build();
         }
 
-        var transactionResource = ProductResourceFromEntityAssembler.toResourceFromEntity(transaction.get());
-        return new ResponseEntity<>(transactionResource, HttpStatus.CREATED);
+        var productResource = ProductResourceFromEntityAssembler.toResourceFromEntity(product.get());
+        return new ResponseEntity<>(productResource, HttpStatus.CREATED);
     }
 
     @GetMapping
