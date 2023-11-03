@@ -1,6 +1,8 @@
 package com.greatminds.ayni.shopping.application.internal.commandservices;
 
 import com.greatminds.ayni.shopping.domain.model.commands.CreateOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.FinalizeOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.QualifyOrderCommand;
 import com.greatminds.ayni.shopping.domain.model.queries.GetSaleByIdQuery;
 import com.greatminds.ayni.shopping.domain.services.SaleQueryService;
 import com.greatminds.ayni.shopping.interfaces.rest.resources.UpdateOrderResource;
@@ -26,10 +28,32 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         var getSaleByIdQuery = new GetSaleByIdQuery(command.saleId());
         var sale = saleQueryService.handle(getSaleByIdQuery).orElseThrow();
         Date currentDate = new Date();
-        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), sale, command.orderedBy(), command.acceptedBy(), currentDate);
+        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), sale, command.orderedBy(), command.acceptedBy(), currentDate);
         order.updateDate(currentDate);
         orderRepository.save(order);
         return order.getId();
+    }
+
+    @Override
+    public Long handle(FinalizeOrderCommand command) {
+        orderRepository.findById(command.orderId())
+                .map(order -> {
+                    order.end();
+                    orderRepository.save(order);
+                    return order.getId();
+                }).orElseThrow(() -> new RuntimeException("Order not found"));
+        return null;
+    }
+
+    @Override
+    public Long handle(QualifyOrderCommand command) {
+        orderRepository.findById(command.orderId())
+                .map(order -> {
+                    order.qualify();
+                    orderRepository.save(order);
+                    return order.getId();
+                }).orElseThrow(() -> new RuntimeException("Order not found"));
+        return null;
     }
 
     @Override

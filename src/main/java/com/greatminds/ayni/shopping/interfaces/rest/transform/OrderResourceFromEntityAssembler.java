@@ -11,11 +11,11 @@ public class OrderResourceFromEntityAssembler {
                 entity.getTotalPrice(),
                 entity.getQuantity(),
                 entity.getPaymentMethod(),
-                entity.getStatus(),
                 entity.getSale().getId(),
                 entity.getOrderedBy(),
                 entity.getAcceptedBy(),
-                entity.getOrderedDate()
+                entity.getOrderedDate(),
+                entity.getStatus()
         );
     }
 }
