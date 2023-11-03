@@ -64,6 +64,21 @@ public class Order {
         this.orderedDate = currentDate;
     }
 
+    public void update(Order request) {
+        if (request.description != null) {
+            this.description = request.description;
+        }
+        if (request.quantity != null) {
+            this.quantity = request.quantity;
+        }
+        if (request.totalPrice != null) {
+            this.totalPrice = request.totalPrice;
+        }
+        if (request.paymentMethod != null) {
+            this.paymentMethod = request.paymentMethod;
+        }
+    }
+
     public void end() {
         this.status = OrderStatus.FINALIZED;
     }

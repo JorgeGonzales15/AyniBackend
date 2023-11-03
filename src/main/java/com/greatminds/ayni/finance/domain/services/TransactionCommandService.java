@@ -5,8 +5,6 @@ import com.greatminds.ayni.finance.interfaces.rest.resources.UpdateTransactionRe
 
 public interface TransactionCommandService {
     Long handle(CreateTransactionCommand command);
-
-
     Long deleteTransaction(Long transactionId);
     Long updateTransaction(Long transactionId, UpdateTransactionResource request);
 }
