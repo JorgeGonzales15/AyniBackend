@@ -1,6 +1,8 @@
 package com.greatminds.ayni.shopping.application.internal.commandservices;
 
 import com.greatminds.ayni.shopping.domain.model.commands.CreateOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.FinalizeOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.QualifyOrderCommand;
 import com.greatminds.ayni.shopping.domain.model.queries.GetSaleByIdQuery;
 import com.greatminds.ayni.shopping.domain.services.SaleQueryService;
 import com.greatminds.ayni.shopping.interfaces.rest.resources.UpdateOrderResource;
@@ -26,10 +28,32 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         var getSaleByIdQuery = new GetSaleByIdQuery(command.saleId());
         var sale = saleQueryService.handle(getSaleByIdQuery).orElseThrow();
         Date currentDate = new Date();
-        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), command.status(), sale, command.orderedBy(), command.acceptedBy(), currentDate);
+        var order = new Order(command.description(), command.totalPrice(), command.quantity(), command.paymentMethod(), sale, command.orderedBy(), command.acceptedBy(), currentDate);
         order.updateDate(currentDate);
         orderRepository.save(order);
         return order.getId();
+    }
+
+    @Override
+    public Long handle(FinalizeOrderCommand command) {
+        orderRepository.findById(command.orderId())
+                .map(order -> {
+                    order.end();
+                    orderRepository.save(order);
+                    return order.getId();
+                }).orElseThrow(() -> new RuntimeException("Order not found"));
+        return null;
+    }
+
+    @Override
+    public Long handle(QualifyOrderCommand command) {
+        orderRepository.findById(command.orderId())
+                .map(order -> {
+                    order.qualify();
+                    orderRepository.save(order);
+                    return order.getId();
+                }).orElseThrow(() -> new RuntimeException("Order not found"));
+        return null;
     }
 
     @Override
@@ -43,16 +67,18 @@ public class OrderCommandServiceImpl implements OrderCommandService {
 
     @Override
     public Long updateOrder(Long orderId, UpdateOrderResource request) {
-        return null;
-    }
-
-    /*@Override
-    public Long updateOrder(Long orderId, UpdateOrderResource request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found"));
-
-        order.update(new Order(request.getDescription(), request.getTotalPrice(), request.getQuantity(), request.getPaymentMethod(), request.getStatus(), request.getSaleId(), request.getOrderedBy(), request.getAcceptedBy(), request.getOrderedDate())
-        orderRepository.save(order);
-        return order.getId();
-    }*/
+        if(order.getStatus().equals("pending")) {
+            var getSaleByIdQuery = new GetSaleByIdQuery(request.saleId());
+            var sale = saleQueryService.handle(getSaleByIdQuery).orElseThrow();
+            Date currentDate = new Date();
+            order.update(new Order(request.description(), request.totalPrice(), request.quantity(), request.paymentMethod(), sale, request.orderedBy(), request.acceptedBy(), currentDate));
+            order.updateDate(currentDate);
+            orderRepository.save(order);
+            return order.getId();
+        } else {
+            throw new IllegalArgumentException("Only pending orders can be updated");
+        }
+    }
 }

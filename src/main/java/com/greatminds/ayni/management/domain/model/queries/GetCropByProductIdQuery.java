@@ -1,4 +1,4 @@
 package com.greatminds.ayni.management.domain.model.queries;
 
-public record GetCropByProductIdQuery(Long productId) {
+public record GetCropByProductIdQuery(Long productId, Long cropId) {
 }

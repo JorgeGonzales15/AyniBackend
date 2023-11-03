@@ -1,6 +1,7 @@
 package com.greatminds.ayni.shopping.domain.model.aggregates;
 
 import com.greatminds.ayni.shopping.domain.model.entities.Sale;
+import com.greatminds.ayni.shopping.domain.model.valueobjects.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -33,7 +34,7 @@ public class Order {
     private Long quantity;
 
     @Getter
-    private String status;
+    private OrderStatus status;
 
     @Getter
     private Date orderedDate;
@@ -44,12 +45,12 @@ public class Order {
     @Getter
     private String paymentMethod;
 
-    public Order(String description, Double totalPrice, Long quantity, String paymentMethod, String status, Sale sale, Long orderedBy, Long acceptedBy, Date orderedDate) {
+    public Order(String description, Double totalPrice, Long quantity, String paymentMethod, Sale sale, Long orderedBy, Long acceptedBy, Date orderedDate) {
         this.description = description;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
-        this.status = status;
+        this.status = OrderStatus.PENDING;
         this.orderedBy = orderedBy;
         this.acceptedBy = acceptedBy;
         this.sale = sale;
@@ -61,6 +62,33 @@ public class Order {
 
     public void updateDate(Date currentDate) {
         this.orderedDate = currentDate;
+    }
+
+    public void update(Order request) {
+        if (request.description != null) {
+            this.description = request.description;
+        }
+        if (request.quantity != null) {
+            this.quantity = request.quantity;
+        }
+        if (request.totalPrice != null) {
+            this.totalPrice = request.totalPrice;
+        }
+        if (request.paymentMethod != null) {
+            this.paymentMethod = request.paymentMethod;
+        }
+    }
+
+    public void end() {
+        this.status = OrderStatus.FINALIZED;
+    }
+
+    public void qualify() {
+        this.status = OrderStatus.QUALIFIED;
+    }
+
+    public String getStatus() {
+        return this.status.name().toLowerCase();
     }
 
 }

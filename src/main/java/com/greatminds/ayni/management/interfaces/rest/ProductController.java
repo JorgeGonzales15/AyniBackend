@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Product", description = "Product Management Endpoints")
+@Tag(name = "Products", description = "Product Management Endpoints")
 public class ProductController {
     private final ProductQueryService productQueryService;
     private final ProductCommandService productCommandService;
@@ -40,15 +40,15 @@ public class ProductController {
             return ResponseEntity.badRequest().build();
         }
 
-        var getTransactionIdByQuery = new GetProductByIdQuery(productId);
-        var transaction = productQueryService.handle(getTransactionIdByQuery);
+        var getProductByIdQuery = new GetProductByIdQuery(productId);
+        var product = productQueryService.handle(getProductByIdQuery);
 
-        if(transaction.isEmpty()){
+        if(product.isEmpty()){
             return ResponseEntity.badRequest().build();
         }
 
-        var transactionResource = ProductResourceFromEntityAssembler.toResourceFromEntity(transaction.get());
-        return new ResponseEntity<>(transactionResource, HttpStatus.CREATED);
+        var productResource = ProductResourceFromEntityAssembler.toResourceFromEntity(product.get());
+        return new ResponseEntity<>(productResource, HttpStatus.CREATED);
     }
 
     @GetMapping
