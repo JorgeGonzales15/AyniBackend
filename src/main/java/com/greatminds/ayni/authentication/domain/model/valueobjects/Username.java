@@ -10,6 +10,7 @@ public record Username(
         @Size(max = 20)
         String username
 ) {
+
     public Username() {
         this(null);
     }
