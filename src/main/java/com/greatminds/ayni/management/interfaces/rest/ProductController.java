@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Product", description = "Product Management Endpoints")
+@Tag(name = "Products", description = "Product Management Endpoints")
 public class ProductController {
     private final ProductQueryService productQueryService;
     private final ProductCommandService productCommandService;
