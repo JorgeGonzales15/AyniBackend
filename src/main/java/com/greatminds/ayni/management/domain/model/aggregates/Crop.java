@@ -1,7 +1,6 @@
 package com.greatminds.ayni.management.domain.model.aggregates;
 
 import com.greatminds.ayni.management.domain.model.entities.Product;
-import com.greatminds.ayni.management.domain.model.valueobjects.ProductId;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -1,10 +1,8 @@
 package com.greatminds.ayni.management.interfaces.rest;
 
-import com.greatminds.ayni.management.domain.model.queries.GetAllCropsByProductIdQuery;
 import com.greatminds.ayni.management.domain.model.queries.GetAllCropsQuery;
 import com.greatminds.ayni.management.domain.model.queries.GetCropByIdQuery;
 import com.greatminds.ayni.management.domain.model.queries.GetCropByProductIdQuery;
-import com.greatminds.ayni.management.domain.model.valueobjects.ProductId;
 import com.greatminds.ayni.management.domain.services.CropCommandService;
 import com.greatminds.ayni.management.domain.services.CropQueryService;
 import com.greatminds.ayni.management.interfaces.rest.resources.CreateCropResource;
@@ -22,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/crops", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Crop", description = "Crop Management Endpoints")
+@Tag(name = "Crops", description = "Crop Management Endpoints")
 public class CropController {
     private final CropQueryService cropQueryService;
     private final CropCommandService cropCommandService;
@@ -73,25 +71,4 @@ public class CropController {
         var cropResource = CropResourceFromEntityAssembler.toResourceFromEntity(crop.get());
         return ResponseEntity.ok(cropResource);
     }
-
-    @GetMapping("/product/{productId}")
-    public ResponseEntity<List<CropResource>> getAllCropsByProductId(@PathVariable Long productId) {
-        var getAllCropsByProductIdQuery = new GetAllCropsByProductIdQuery(productId);
-        var crops = cropQueryService.handle(getAllCropsByProductIdQuery);
-        var cropsResource= crops.stream().map(CropResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
-        return ResponseEntity.ok(cropsResource);
-    }
-
-    /*@GetMapping("/product/{productId}")
-    public ResponseEntity<CropResource> getCropByProductId(@PathVariable Long productId) {
-        var getCropByProductIdQuery = new GetCropByProductIdQuery(productId);
-        var crop = cropQueryService.handle(getCropByProductIdQuery);
-
-        if(crop.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-        var cropResource = CropResourceFromEntityAssembler.toResourceFromEntity(crop.get());
-        return ResponseEntity.ok(cropResource);
-    }*/
 }
