@@ -2,6 +2,8 @@ package com.greatminds.ayni.shopping.interfaces.rest;
 
 import com.greatminds.ayni.shopping.domain.model.aggregates.Order;
 import com.greatminds.ayni.shopping.domain.model.commands.CreateOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.FinalizeOrderCommand;
+import com.greatminds.ayni.shopping.domain.model.commands.QualifyOrderCommand;
 import com.greatminds.ayni.shopping.domain.model.queries.GetAllOrdersQuery;
 import com.greatminds.ayni.shopping.domain.model.queries.GetOrderByIdQuery;
 import com.greatminds.ayni.shopping.domain.services.OrderCommandService;
@@ -53,6 +55,20 @@ public class OrderController {
         return new ResponseEntity<>(orderResource, HttpStatus.CREATED);
     }
 
+    @PostMapping("/{orderId}/finalizations")
+    public ResponseEntity<?> finalizeOrder(@PathVariable Long orderId){
+        var finalizeOrderCommand = new FinalizeOrderCommand(orderId);
+        var finalizedOrderId = orderCommandService.handle(finalizeOrderCommand);
+        return ResponseEntity.ok(finalizedOrderId);
+    }
+
+    @PostMapping("/{orderId}/qualifications")
+    public ResponseEntity<?> qualifyOrder(@PathVariable Long orderId){
+        var qualifyOrderCommand = new QualifyOrderCommand(orderId);
+        var qualifiedOrderId = orderCommandService.handle(qualifyOrderCommand);
+        return ResponseEntity.ok(qualifiedOrderId);
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderResource>> getAllOrders() {
         var getAllOrdersQuery = new GetAllOrdersQuery();
@@ -72,7 +88,7 @@ public class OrderController {
         return ResponseEntity.ok(orderResource);
     }
 
-    @PutMapping("/orders/{orderId}")
+    @PutMapping("/{orderId}")
     public ResponseEntity<OrderResource> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderResource resource) {
         try {
             Long updatedOrderId = orderCommandService.updateOrder(orderId, resource);
@@ -84,7 +100,7 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/orders/{orderId}")
+    @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         var getOrderByIdQuery = new GetOrderByIdQuery(orderId);
         var existingOrder = orderQueryService.handle(getOrderByIdQuery);
