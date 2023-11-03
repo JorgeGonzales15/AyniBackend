@@ -37,6 +37,6 @@ public class CropQueryServiceImpl implements CropQueryService {
 
     @Override
     public Optional<Crop> handle(GetCropByProductIdQuery query) {
-        return this.cropRepository.findCropByProductId(query.productId());
+        return this.cropRepository.findCropByProductIdAndId(query.productId(), query.cropId());
     }
 }
