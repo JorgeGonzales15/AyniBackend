@@ -5,6 +5,6 @@ import com.greatminds.ayni.finance.interfaces.rest.resources.CreateTransactionRe
 
 public class CreateTransactionCommandFromResourceAssembler {
     public static CreateTransactionCommand toCommandFromResource(CreateTransactionResource resource){
-        return new CreateTransactionCommand(resource.costName(), resource.description(), resource.type(), resource.price(), resource.quantity());
+        return new CreateTransactionCommand(resource.costName(), resource.description(), resource.date(), resource.type(), resource.price(), resource.quantity());
     }
 }

@@ -1,6 +1,7 @@
 package com.greatminds.ayni.finance.application.internal.queryservices;
 
 import com.greatminds.ayni.finance.domain.model.aggregates.Transaction;
+import com.greatminds.ayni.finance.domain.model.queries.GetAllTransactionsQuery;
 import com.greatminds.ayni.finance.domain.model.queries.GetTransactionByIdQuery;
 import com.greatminds.ayni.finance.domain.services.TransactionQueryService;
 import com.greatminds.ayni.finance.infrastructure.persistence.jpa.repositories.TransactionRepository;
@@ -22,8 +23,10 @@ public class TransactionQueryServiceImpl implements TransactionQueryService {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> handle(GetAllTransactionsQuery query) {
         return transactionRepository.findAll();
     }
+
+
 
 }

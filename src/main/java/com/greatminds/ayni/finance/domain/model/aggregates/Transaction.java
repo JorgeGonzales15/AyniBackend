@@ -5,8 +5,6 @@ import lombok.*;
 import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
-
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -17,49 +15,47 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
     private Long id;
 
     private String costName;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
+    private String date;
     private String description;
     private String type;
     private Double price;
+    private String quantity;
 
-    private Integer quantity;
 
-
-    public Transaction(String costName, String description, String type, Double price, Integer quantity) {
+    public Transaction(String costName, String description, String date, String type, Double price, String quantity) {
         this.costName = costName;
         this.description = description;
         this.type = type;
         this.price = price;
         this.quantity = quantity;
-        this.date = new Date();
+        this.date=date;
     }
 
 
     public Transaction() {
-
     }
 
-    public void update(Transaction request) {
-        if (request.costName != null) {
-            this.costName = request.costName;
+    public Transaction update(String costName, String description, String date, String type, Double price, String quantity) {
+        if (costName != null) {
+            this.costName = costName;
         }
-        if (request.description != null) {
-            this.description = request.description;
+        if (description != null) {
+            this.description = description;
         }
-        if (request.type != null) {
-            this.type = request.type;
+        if (date != null) {
+            this.date = date;
         }
-        if (request.price != null) {
-            this.price = request.price;
+        if (type != null) {
+            this.type = type;
         }
-        if (request.quantity != null) {
-            this.quantity = request.quantity;
+        if (price != null) {
+            this.price = price;
         }
+        if (quantity != null) {
+            this.quantity = quantity;
+        }
+        return this;
     }
 
-    public void updateDate(Date currentDate) {
-        this.date = currentDate;
-    }
+
 }

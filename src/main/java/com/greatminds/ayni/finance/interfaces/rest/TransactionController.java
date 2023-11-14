@@ -1,7 +1,7 @@
 package com.greatminds.ayni.finance.interfaces.rest;
 
-import com.greatminds.ayni.finance.domain.model.aggregates.Transaction;
-import com.greatminds.ayni.finance.domain.model.commands.CreateTransactionCommand;
+import com.greatminds.ayni.finance.domain.model.commands.DeleteTransactionCommand;
+import com.greatminds.ayni.finance.domain.model.queries.GetAllTransactionsQuery;
 import com.greatminds.ayni.finance.domain.model.queries.GetTransactionByIdQuery;
 import com.greatminds.ayni.finance.domain.services.TransactionCommandService;
 import com.greatminds.ayni.finance.domain.services.TransactionQueryService;
@@ -10,11 +10,11 @@ import com.greatminds.ayni.finance.interfaces.rest.resources.TransactionResource
 import com.greatminds.ayni.finance.interfaces.rest.resources.UpdateTransactionResource;
 import com.greatminds.ayni.finance.interfaces.rest.transform.CreateTransactionCommandFromResourceAssembler;
 import com.greatminds.ayni.finance.interfaces.rest.transform.TransactionResourceFromEntityAssembler;
+import com.greatminds.ayni.finance.interfaces.rest.transform.UpdateTransactionCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,20 +32,24 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResource> createTransaction(@RequestBody CreateTransactionResource resource){
+    public ResponseEntity<TransactionResource> createTransaction(@RequestBody CreateTransactionResource resource) {
         var createTransactionCommand = CreateTransactionCommandFromResourceAssembler.toCommandFromResource(resource);
 
         var transactionId = transactionCommandService.handle(createTransactionCommand);
-        if(transactionId == 0L){return ResponseEntity.badRequest().build();}
+        if (transactionId == 0L) {
+            return ResponseEntity.badRequest().build();
+        }
         var getTransactionIdByQuery = new GetTransactionByIdQuery(transactionId);
         var transaction = transactionQueryService.handle(getTransactionIdByQuery);
-        if(transaction.isEmpty()){ return ResponseEntity.badRequest().build();}
+        if (transaction.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         var transactionResource = TransactionResourceFromEntityAssembler.toResourceFromEntity(transaction.get());
         return new ResponseEntity<>(transactionResource, HttpStatus.CREATED);
     }
 
     @GetMapping("/{transactionId}")
-        public ResponseEntity<TransactionResource> getTransactionById(@PathVariable Long transactionId) {
+    public ResponseEntity<TransactionResource> getTransactionById(@PathVariable Long transactionId) {
         var getTransactionIdByQuery = new GetTransactionByIdQuery(transactionId);
         var transaction = transactionQueryService.handle(getTransactionIdByQuery);
         if (transaction.isEmpty()) {
@@ -57,40 +61,28 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<TransactionResource>> getAllTransactions() {
-        List<Transaction> transactions = transactionQueryService.getAllTransactions();
-
-        if (transactions.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<TransactionResource> transactionResources = TransactionResourceFromEntityAssembler.toResourceListFromEntities(transactions);
+        var getAllTransactionsQuery = new GetAllTransactionsQuery();
+        var transactions = transactionQueryService.handle(getAllTransactionsQuery);
+        var transactionResources = transactions.stream().map(TransactionResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(transactionResources);
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<TransactionResource> updateTransaction(@PathVariable Long transactionId, @RequestBody UpdateTransactionResource resource) {
-        try {
-            Long updatedTransactionId = transactionCommandService.updateTransaction(transactionId, resource);
-            Transaction updatedTransaction = transactionQueryService.handle(new GetTransactionByIdQuery(updatedTransactionId))
-                    .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
-            return ResponseEntity.ok(TransactionResourceFromEntityAssembler.toResourceFromEntity(updatedTransaction));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<TransactionResource> updateTransaction(@PathVariable Long transactionId, @RequestBody UpdateTransactionResource updateTransactionResource) {
+        var updateTransactionCommand = UpdateTransactionCommandFromResourceAssembler.toCommandFromResource(transactionId, updateTransactionResource);
+        var updatedTransaction = transactionCommandService.handle(updateTransactionCommand);
+        if (updatedTransaction.isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
+        var transactionResource = TransactionResourceFromEntityAssembler.toResourceFromEntity(updatedTransaction.get());
+        return ResponseEntity.ok(transactionResource);
     }
 
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long transactionId) {
-        var getTransactionIdByQuery = new GetTransactionByIdQuery(transactionId);
-        var existingTransaction = transactionQueryService.handle(getTransactionIdByQuery);
-
-        if (existingTransaction.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        transactionCommandService.deleteTransaction(transactionId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteTransaction(@PathVariable Long transactionId) {
+        var deleteTransactionCommand = new DeleteTransactionCommand(transactionId);
+        transactionCommandService.handle(deleteTransactionCommand);
+        return ResponseEntity.ok("Transaction with given id successfully deleted");
     }
-
 }
