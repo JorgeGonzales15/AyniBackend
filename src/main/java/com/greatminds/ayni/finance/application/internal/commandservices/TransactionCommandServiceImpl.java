@@ -2,12 +2,13 @@ package com.greatminds.ayni.finance.application.internal.commandservices;
 
 import com.greatminds.ayni.finance.domain.model.aggregates.Transaction;
 import com.greatminds.ayni.finance.domain.model.commands.CreateTransactionCommand;
+import com.greatminds.ayni.finance.domain.model.commands.DeleteTransactionCommand;
+import com.greatminds.ayni.finance.domain.model.commands.UpdateTransactionCommand;
 import com.greatminds.ayni.finance.domain.services.TransactionCommandService;
 import com.greatminds.ayni.finance.infrastructure.persistence.jpa.repositories.TransactionRepository;
-import com.greatminds.ayni.finance.interfaces.rest.resources.UpdateTransactionResource;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TransactionCommandServiceImpl implements TransactionCommandService {
@@ -19,29 +20,24 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     @Override
     public Long handle(CreateTransactionCommand command) {
-        Date currentDate = new Date();
-        var transaction = new Transaction(command.costName(), command.description(), command.type(), command.price(), command.quantity());
-        transaction.updateDate(currentDate);
+        var transaction = new Transaction(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity());
         transactionRepository.save(transaction);
         return transaction.getId();
     }
 
     @Override
-    public Long deleteTransaction(Long transactionId) {
-        if (!transactionRepository.existsById(transactionId)) {
-            throw new IllegalArgumentException("Transaction with ID " + transactionId + " not found");
+    public void handle(DeleteTransactionCommand command) {
+        if (!transactionRepository.existsById(command.id())) {
+            throw new IllegalArgumentException("Transaction with ID " + command.id() + " not found");
         }
-         transactionRepository.deleteById(transactionId);
-         return transactionId;
+        transactionRepository.deleteById(command.id());
     }
 
     @Override
-    public Long updateTransaction(Long transactionId, UpdateTransactionResource request) {
-        Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new IllegalArgumentException("Transaction with ID " + transactionId + " not found"));
-
-        transaction.update(new Transaction(request.costName(), request.description(), request.type(), request.price(), request.quantity()));
-        transactionRepository.save(transaction);
-        return transaction.getId();
+    public Optional<Transaction> handle(UpdateTransactionCommand command) {
+        if (!transactionRepository.existsById(command.id())) throw new IllegalArgumentException("Transaction does not exist");
+        var transactionToUpdate = transactionRepository.findById(command.id()).get();
+        var updatedTransaction = transactionRepository.save(transactionToUpdate.update(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity()));
+        return Optional.of(updatedTransaction);
     }
 }
