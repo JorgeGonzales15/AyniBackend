@@ -1,8 +1,6 @@
 package com.greatminds.ayni.authentication.domain.model.commands;
 
-import java.util.Set;
-
-public record CreateUserCommand(
+public record SignUpCommand(
         String username,
         String email,
         String password,
