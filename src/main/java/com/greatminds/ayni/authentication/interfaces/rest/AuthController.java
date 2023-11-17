@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @Tag(name = "Authentication", description = "Authentication endpoints")
 @RequestMapping(value ="/api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
