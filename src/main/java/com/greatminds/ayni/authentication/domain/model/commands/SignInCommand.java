@@ -1,6 +1,6 @@
 package com.greatminds.ayni.authentication.domain.model.commands;
 
-public record AuthenticateUserCommand(
+public record SignInCommand(
         String username,
         String password
 ) {
