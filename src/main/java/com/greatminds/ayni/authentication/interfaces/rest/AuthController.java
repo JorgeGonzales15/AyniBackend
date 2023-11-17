@@ -11,12 +11,13 @@ import com.greatminds.ayni.authentication.interfaces.rest.transform.SignUpComman
 import com.greatminds.ayni.authentication.interfaces.rest.transform.UserResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "Authentication", description = "Authentication endpoints")
-@RequestMapping("/api/v1/auth")
+@RequestMapping(value ="/api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
     private final UserQueryService userQueryService;
