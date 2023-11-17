@@ -1,25 +1,26 @@
-package com.greatminds.ayni.authentication.infrastructure.security.services;
+package com.greatminds.ayni.authentication.infrastructure.authorization.sfs.services;
 
-import com.greatminds.ayni.authentication.domain.model.aggregates.User;
 import com.greatminds.ayni.authentication.domain.model.valueobjects.Username;
+import com.greatminds.ayni.authentication.infrastructure.authorization.sfs.model.UserDetailsImpl;
 import com.greatminds.ayni.authentication.infrastructure.persistence.jpa.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("defaultUserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(new Username(username))
+        var user = userRepository.findByUsername(new Username(username))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-
         return UserDetailsImpl.build(user);
     }
 }
