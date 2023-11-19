@@ -14,7 +14,8 @@ public class ProductResourceFromEntityAssembler {
                 entity.getWeather(),
                 entity.getGroundType(),
                 entity.getSeason(),
-                entity.getImageUrl()
+                entity.getImageUrl(),
+                entity.getUserId()
         );
     }
 }

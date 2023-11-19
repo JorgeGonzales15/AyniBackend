@@ -20,15 +20,17 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
     private String type;
     private Double price;
     private String quantity;
+    private Long userId;
 
 
-    public Transaction(String costName, String description, String date, String type, Double price, String quantity) {
+    public Transaction(String costName, String description, String date, String type, Double price, String quantity, Long userId) {
         this.costName = costName;
         this.description = description;
         this.type = type;
         this.price = price;
         this.quantity = quantity;
         this.date=date;
+        this.userId=userId;
     }
 
 

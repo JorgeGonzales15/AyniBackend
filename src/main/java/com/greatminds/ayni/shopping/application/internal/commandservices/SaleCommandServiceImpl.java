@@ -17,7 +17,7 @@ public class SaleCommandServiceImpl implements SaleCommandService {
 
     @Override
     public Long handle(CreateSaleCommand command) {
-        var sale = new Sale(command.name(), command.description(), command.unitPrice(), command.quantity(), command.imageUrl());
+        var sale = new Sale(command.name(), command.description(), command.unitPrice(), command.quantity(), command.imageUrl(), command.userId());
         saleRepository.save(sale);
         return sale.getId();
     }

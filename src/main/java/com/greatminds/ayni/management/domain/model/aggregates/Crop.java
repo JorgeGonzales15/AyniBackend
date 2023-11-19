@@ -42,10 +42,13 @@ public class Crop {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Getter
+    private Long userId;
+
     public Crop() {
     }
 
-    public Crop(String name, Boolean undergrowth, Boolean fertilize, Boolean oxygenate, Boolean line, Boolean hole, Long watered, Long pestCleaning, Product product) {
+    public Crop(String name, Boolean undergrowth, Boolean fertilize, Boolean oxygenate, Boolean line, Boolean hole, Long watered, Long pestCleaning, Product product, Long userId) {
         this.name = name;
         this.undergrowth = undergrowth;
         this.fertilize = fertilize;
@@ -55,6 +58,7 @@ public class Crop {
         this.watered = watered;
         this.pestCleaning = pestCleaning;
         this.product = product;
+        this.userId = userId;
     }
 
 }

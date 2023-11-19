@@ -35,11 +35,13 @@ public class Product {
     @Getter
     private String imageUrl;
 
+    @Getter
+    private Long userId;
 
     public Product() {
     }
 
-    public Product(String name, String description, String distance, String depth, String weather, String groundType, String season, String imageUrl) {
+    public Product(String name, String description, String distance, String depth, String weather, String groundType, String season, String imageUrl, Long userId) {
         this.name = name;
         this.description = description;
         this.distance = distance;
@@ -48,5 +50,6 @@ public class Product {
         this.groundType = groundType;
         this.season = season;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 }

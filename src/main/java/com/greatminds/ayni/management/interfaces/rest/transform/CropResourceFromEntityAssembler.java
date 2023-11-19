@@ -15,7 +15,8 @@ public class CropResourceFromEntityAssembler {
                 entity.getHole(),
                 entity.getWatered(),
                 entity.getPestCleaning(),
-                entity.getProduct().getId()
+                entity.getProduct().getId(),
+                entity.getUserId()
         );
     }
 }

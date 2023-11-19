@@ -1,4 +1,4 @@
 package com.greatminds.ayni.management.interfaces.rest.resources;
 
-public record CropResource(Long id, String name, Boolean undergrowth, Boolean fertilize, Boolean oxygenate, Boolean line, Boolean hole, Long watered, Long pestCleaning, Long productId) {
+public record CropResource(Long id, String name, Boolean undergrowth, Boolean fertilize, Boolean oxygenate, Boolean line, Boolean hole, Long watered, Long pestCleaning, Long productId, Long userId) {
 }
