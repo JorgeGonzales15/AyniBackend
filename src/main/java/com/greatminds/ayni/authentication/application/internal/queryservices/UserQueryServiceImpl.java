@@ -1,12 +1,14 @@
 package com.greatminds.ayni.authentication.application.internal.queryservices;
 
 import com.greatminds.ayni.authentication.domain.model.aggregates.User;
+import com.greatminds.ayni.authentication.domain.model.queries.GetAllUsersQuery;
 import com.greatminds.ayni.authentication.domain.model.queries.GetUserByIdQuery;
 import com.greatminds.ayni.authentication.domain.model.queries.GetUserByUsernameQuery;
 import com.greatminds.ayni.authentication.domain.services.UserQueryService;
 import com.greatminds.ayni.authentication.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,10 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public Optional<User> handle(GetUserByIdQuery query) {
         return this.userRepository.findById(query.id());
+    }
+    @Override
+    public List<User> handle(GetAllUsersQuery query) {
+        return userRepository.findAll();
     }
 
 }

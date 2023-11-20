@@ -5,6 +5,6 @@ import com.greatminds.ayni.management.interfaces.rest.resources.CreateProductRes
 
 public class CreateProductCommandFromResourceAssembler {
     public static CreateProductCommand toCommandFromResource(CreateProductResource resource) {
-        return new CreateProductCommand(resource.name(), resource.description(), resource.distance(), resource.depth(), resource.weather(), resource.groundType(), resource.season(), resource.imageUrl());
+        return new CreateProductCommand(resource.name(), resource.description(), resource.distance(), resource.depth(), resource.weather(), resource.groundType(), resource.season(), resource.imageUrl(), resource.userId());
     }
 }

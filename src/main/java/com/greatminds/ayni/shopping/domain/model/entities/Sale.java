@@ -26,14 +26,18 @@ public class Sale {
     @Getter
     private String imageUrl;
 
+    @Getter
+    private Long userId;
+
     public Sale() {
     }
 
-    public Sale(String name, String description, Double unitPrice, Long quantity, String imageUrl) {
+    public Sale(String name, String description, Double unitPrice, Long quantity, String imageUrl, Long userId) {
         this.name = name;
         this.description = description;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 }

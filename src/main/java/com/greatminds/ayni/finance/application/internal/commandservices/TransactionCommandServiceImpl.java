@@ -20,7 +20,7 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     @Override
     public Long handle(CreateTransactionCommand command) {
-        var transaction = new Transaction(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity());
+        var transaction = new Transaction(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity(), command.userId());
         transactionRepository.save(transaction);
         return transaction.getId();
     }
