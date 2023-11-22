@@ -87,6 +87,10 @@ public class Order {
         this.status = OrderStatus.QUALIFIED;
     }
 
+    public boolean isQualified() { return this.status == OrderStatus.QUALIFIED; }
+
+    public boolean isFinalized() { return this.status == OrderStatus.FINALIZED; }
+
     public String getStatus() {
         return this.status.name().toLowerCase();
     }

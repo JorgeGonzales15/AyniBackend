@@ -8,13 +8,13 @@ public class CropResourceFromEntityAssembler {
         return new CropResource(
                 entity.getId(),
                 entity.getName(),
-                entity.getUndergrowth(),
-                entity.getFertilize(),
-                entity.getOxygenate(),
-                entity.getLine(),
-                entity.getHole(),
-                entity.getWatered(),
-                entity.getPestCleaning(),
+                entity.getPickUpWeed(),
+                entity.getFertilizeCrop(),
+                entity.getOxygenateCrop(),
+                entity.getMakeCropLine(),
+                entity.getMakeCropHole(),
+                entity.getWateringDays(),
+                entity.getPestCleanupDays(),
                 entity.getProduct().getId(),
                 entity.getUserId()
         );

@@ -17,7 +17,9 @@ public class ProductCommandServiceImpl implements ProductCommandService {
 
     @Override
     public Long handle(CreateProductCommand command) {
-        var product = new Product(command.name(), command.description(), command.distance(), command.depth(), command.weather(), command.groundType(), command.season(), command.imageUrl(), command.userId());
+        var product = new Product(command.name(), command.description(), command.recommendedCultivationDistance(),
+                command.recommendedCultivationDepth(), command.recommendedGrowingClimate(), command.recommendedSoilType(),
+                command.recommendedGrowingSeason(), command.imageUrl(), command.userId());
         productRepository.save(product);
         return product.getId();
     }

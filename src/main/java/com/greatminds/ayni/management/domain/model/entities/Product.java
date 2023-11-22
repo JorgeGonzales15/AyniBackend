@@ -18,19 +18,19 @@ public class Product {
     private String description;
 
     @Getter
-    private String distance;
+    private String recommendedCultivationDistance;
 
     @Getter
-    private String depth;
+    private String recommendedCultivationDepth;
 
     @Getter
-    private String weather;
+    private String recommendedGrowingClimate;
 
     @Getter
-    private String groundType;
+    private String recommendedSoilType;
 
     @Getter
-    private String season;
+    private String recommendedGrowingSeason;
 
     @Getter
     private String imageUrl;
@@ -41,14 +41,16 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, String distance, String depth, String weather, String groundType, String season, String imageUrl, Long userId) {
+    public Product(String name, String description, String recommendedCultivationDistance, String recommendedCultivationDepth,
+                   String recommendedGrowingClimate, String recommendedSoilType, String recommendedGrowingSeason, String imageUrl,
+                   Long userId) {
         this.name = name;
         this.description = description;
-        this.distance = distance;
-        this.depth = depth;
-        this.weather = weather;
-        this.groundType = groundType;
-        this.season = season;
+        this.recommendedCultivationDistance = recommendedCultivationDistance;
+        this.recommendedCultivationDepth = recommendedCultivationDepth;
+        this.recommendedGrowingClimate = recommendedGrowingClimate;
+        this.recommendedSoilType = recommendedSoilType;
+        this.recommendedGrowingSeason = recommendedGrowingSeason;
         this.imageUrl = imageUrl;
         this.userId = userId;
     }

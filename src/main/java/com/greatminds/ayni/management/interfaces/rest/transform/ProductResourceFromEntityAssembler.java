@@ -9,11 +9,11 @@ public class ProductResourceFromEntityAssembler {
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
-                entity.getDistance(),
-                entity.getDepth(),
-                entity.getWeather(),
-                entity.getGroundType(),
-                entity.getSeason(),
+                entity.getRecommendedCultivationDistance(),
+                entity.getRecommendedCultivationDepth(),
+                entity.getRecommendedGrowingClimate(),
+                entity.getRecommendedSoilType(),
+                entity.getRecommendedGrowingSeason(),
                 entity.getImageUrl(),
                 entity.getUserId()
         );

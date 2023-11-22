@@ -17,25 +17,25 @@ public class Crop {
     private String name;
 
     @Getter
-    private Boolean undergrowth;
+    private Boolean pickUpWeed;
 
     @Getter
-    private Boolean fertilize;
+    private Boolean fertilizeCrop;
 
     @Getter
-    private Boolean oxygenate;
+    private Boolean oxygenateCrop;
 
     @Getter
-    private Boolean line;
+    private Boolean makeCropLine;
 
     @Getter
-    private Boolean hole;
+    private Boolean makeCropHole;
 
     @Getter
-    private Long watered;
+    private Long wateringDays;
 
     @Getter
-    private Long pestCleaning;
+    private Long pestCleanupDays;
 
     @Getter
     @ManyToOne
@@ -48,17 +48,32 @@ public class Crop {
     public Crop() {
     }
 
-    public Crop(String name, Boolean undergrowth, Boolean fertilize, Boolean oxygenate, Boolean line, Boolean hole, Long watered, Long pestCleaning, Product product, Long userId) {
+    public Crop(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
+                Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
         this.name = name;
-        this.undergrowth = undergrowth;
-        this.fertilize = fertilize;
-        this.oxygenate = oxygenate;
-        this.line = line;
-        this.hole = hole;
-        this.watered = watered;
-        this.pestCleaning = pestCleaning;
+        this.pickUpWeed = pickUpWeed;
+        this.fertilizeCrop = fertilizeCrop;
+        this.oxygenateCrop = oxygenateCrop;
+        this.makeCropLine = makeCropLine;
+        this.makeCropHole = makeCropHole;
+        this.wateringDays = wateringDays;
+        this.pestCleanupDays = pestCleanupDays;
         this.product = product;
         this.userId = userId;
     }
 
+    public Crop updateInformation(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
+                                  Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
+        this.name = name;
+        this.pickUpWeed = pickUpWeed;
+        this.fertilizeCrop = fertilizeCrop;
+        this.oxygenateCrop = oxygenateCrop;
+        this.makeCropLine = makeCropLine;
+        this.makeCropHole = makeCropHole;
+        this.wateringDays = wateringDays;
+        this.pestCleanupDays = pestCleanupDays;
+        this.product = product;
+        this.userId = userId;
+        return this;
+    }
 }

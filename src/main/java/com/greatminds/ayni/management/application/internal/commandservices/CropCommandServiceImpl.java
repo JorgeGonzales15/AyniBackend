@@ -22,7 +22,9 @@ public class CropCommandServiceImpl implements CropCommandService {
     public Long handle(CreateCropCommand command) {
         var getProductByIdQuery=new GetProductByIdQuery(command.productId());
         var product=productQueryService.handle(getProductByIdQuery).orElseThrow();
-        var crop = new Crop(command.name(),command.undergrowth(),command.fertilize(),command.oxygenate(),command.line(),command.hole(),command.watered(),command.pestCleaning(),product, command.userId());
+        var crop = new Crop(command.name(), command.pickUpWeed(), command.fertilizeCrop(), command.oxygenateCrop(),
+                command.makeCropLine(), command.makeCropHole(), command.wateringDays(), command.pestCleanupDays(),
+                product, command.userId());
         cropRepository.save(crop);
         return crop.getId();
     }

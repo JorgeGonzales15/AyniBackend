@@ -5,6 +5,7 @@ import com.greatminds.ayni.finance.interfaces.rest.resources.UpdateTransactionRe
 
 public class UpdateTransactionCommandFromResourceAssembler {
     public static UpdateTransactionCommand toCommandFromResource(Long courseId, UpdateTransactionResource resource) {
-        return new UpdateTransactionCommand(courseId, resource.costName(), resource.description(), resource.date(), resource.type(), resource.price(), resource.quantity(), resource.userId());
+        return new UpdateTransactionCommand(courseId, resource.costName(), resource.description(), resource.date(),
+                resource.transactionType(), resource.price(), resource.quantity(), resource.userId());
     }
 }

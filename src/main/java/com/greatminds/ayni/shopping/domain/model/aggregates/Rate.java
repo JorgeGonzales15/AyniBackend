@@ -36,4 +36,9 @@ public class Rate {
         this.product = product;
         this.userId = userId;
     }
+
+    public Rate updateRate(Long rate) {
+        this.rate = rate;
+        return this;
+    }
 }
