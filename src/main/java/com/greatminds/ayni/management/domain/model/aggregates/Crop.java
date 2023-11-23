@@ -4,6 +4,10 @@ import com.greatminds.ayni.management.domain.model.entities.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * Represents the crop aggregate root.
+ * The structure of the "crops" table in the database is mapped.
+ */
 @Entity
 @Table(name = "crops")
 public class Crop {
@@ -48,6 +52,10 @@ public class Crop {
     public Crop() {
     }
 
+    /**
+     * Create a new crop
+     * @return Crop
+     */
     public Crop(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
                 Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
         this.name = name;
@@ -62,6 +70,10 @@ public class Crop {
         this.userId = userId;
     }
 
+    /**
+     * Update the crop information
+     * @return Crop
+     */
     public Crop updateInformation(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
                                   Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
         this.name = name;
@@ -75,5 +87,45 @@ public class Crop {
         this.product = product;
         this.userId = userId;
         return this;
+    }
+
+    /**
+     * Verify if is active the pick up weed for the crop
+     * @return boolean
+     */
+    public boolean isPickUpWeedActive() {
+        return this.pickUpWeed==true;
+    }
+
+    /**
+     * Verify if is active to fertilize the crop
+     * @return boolean
+     */
+    public boolean isFertilizeCropActive() {
+        return this.fertilizeCrop==true;
+    }
+
+    /**
+     * Verify if is active to oxygenate the crop
+     * @return boolean
+     */
+    public boolean isOxygenateCropActive() {
+        return this.oxygenateCrop==true;
+    }
+
+    /**
+     * Verify if is active to make lines for the crop
+     * @return boolean
+     */
+    public boolean isMakeCropLineActive() {
+        return this.makeCropLine==true;
+    }
+
+    /**
+     * Verify if is active the make holes for the crop
+     * @return boolean
+     */
+    public boolean isMakeCropHoleActive() {
+        return this.makeCropHole==true;
     }
 }

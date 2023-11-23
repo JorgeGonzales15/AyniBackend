@@ -6,6 +6,9 @@ import com.greatminds.ayni.management.domain.services.ProductCommandService;
 import com.greatminds.ayni.management.infrastructure.persistence.jpa.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementacion of {@link ProductCommandService} that handles the creation of products.
+ */
 @Service
 public class ProductCommandServiceImpl implements ProductCommandService {
     private final ProductRepository productRepository;
