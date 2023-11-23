@@ -7,6 +7,10 @@ import lombok.Getter;
 
 import java.util.Date;
 
+/**
+ * Represents the order aggregate root.
+ * The structure of the "orders" table in the database is mapped.
+ */
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -57,9 +61,12 @@ public class Order {
     }
 
     public Order() {
-
     }
 
+    /**
+     * Update the order date
+     * @param currentDate
+     */
     public void updateDate(Date currentDate) {
         this.orderedDate = currentDate;
     }
@@ -79,18 +86,38 @@ public class Order {
         }
     }
 
+    /**
+     * End the order
+     */
     public void end() {
         this.status = OrderStatus.FINALIZED;
     }
 
+    /**
+     * Qualify the order
+     */
     public void qualify() {
         this.status = OrderStatus.QUALIFIED;
     }
 
+    /**
+     * Verify if the order is pending
+     */
+    public boolean isPending() { return this.status == OrderStatus.PENDING; }
+
+    /**
+     * Verify if the order is qualified
+     */
     public boolean isQualified() { return this.status == OrderStatus.QUALIFIED; }
 
+    /**
+     * Verify if the order is finalized
+     */
     public boolean isFinalized() { return this.status == OrderStatus.FINALIZED; }
 
+    /**
+     * Get the status of the order
+     */
     public String getStatus() {
         return this.status.name().toLowerCase();
     }

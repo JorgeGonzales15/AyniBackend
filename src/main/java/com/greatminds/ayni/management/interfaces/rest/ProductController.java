@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for product management.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +35,13 @@ public class ProductController {
         this.productCommandService = productCommandService;
     }
 
+    /**
+     * Handles the creation of a new product.
+     * @param resource The product creation command.
+     * @return The ID of the newly created product.
+     * @throws IllegalArgumentException If there is already a product with the same name and product ID,
+     *                                  or if the product ID does not exist.
+     */
     @PostMapping
     public ResponseEntity<ProductResource> createProduct(@RequestBody CreateProductResource resource){
         var createProductCommand = CreateProductCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -51,6 +63,10 @@ public class ProductController {
         return new ResponseEntity<>(productResource, HttpStatus.CREATED);
     }
 
+    /**
+     * Handles the retrieval of all products.
+     * @return A list of all products.
+     */
     @GetMapping
     public ResponseEntity<List<ProductResource>> getAllProducts() {
         var getAllProductsQuery = new GetAllProductsQuery();
@@ -59,6 +75,11 @@ public class ProductController {
         return ResponseEntity.ok(profilesResources);
     }
 
+    /**
+     * Handles the retrieval of a product by ID.
+     * @param productId The ID of the product to retrieve.
+     * @return The product with the given ID.
+     */
     @GetMapping("/{productId}")
     public ResponseEntity<ProductResource> getProductById(@PathVariable Long productId) {
         var getProductByIdQuery = new GetProductByIdQuery(productId);

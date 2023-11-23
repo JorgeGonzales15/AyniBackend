@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@link OrderQueryService} interface.
+ */
 @Service
 public class OrderQueryServiceImpl implements OrderQueryService {
 

@@ -1,10 +1,13 @@
 package com.greatminds.ayni.shopping.domain.model.aggregates;
 
-import com.greatminds.ayni.management.domain.model.entities.Product;
 import com.greatminds.ayni.shopping.domain.model.entities.Sale;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * Represents the rate aggregate root.
+ * The structure of the "rates" table in the database is mapped.
+ */
 @Entity
 @Table(name = "rates")
 public class Rate {
@@ -37,6 +40,12 @@ public class Rate {
         this.userId = userId;
     }
 
+    /**
+     * Updates the rate.
+     *
+     * @param rate the new rate.
+     * @return the updated rate.
+     */
     public Rate updateRate(Long rate) {
         this.rate = rate;
         return this;

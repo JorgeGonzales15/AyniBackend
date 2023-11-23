@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * Controller for transaction management.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/transactions", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +37,11 @@ public class TransactionController {
         this.transactionCommandService = transactionCommandService;
     }
 
+    /**
+     * Handles the creation of a new transaction.
+     * @param resource The transaction creation command.
+     * @return The ID of the newly created transaction.
+     */
     @PostMapping
     public ResponseEntity<TransactionResource> createTransaction(@RequestBody CreateTransactionResource resource) {
         var createTransactionCommand = CreateTransactionCommandFromResourceAssembler.toCommandFromResource(resource);

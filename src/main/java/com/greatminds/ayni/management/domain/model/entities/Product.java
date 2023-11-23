@@ -3,6 +3,10 @@ package com.greatminds.ayni.management.domain.model.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * Represents product entity
+ * Maps the structure of the "products" table in the database.
+ */
 @Entity
 @Table(name="products")
 public class Product {
