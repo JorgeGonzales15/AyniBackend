@@ -17,6 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * Controller for handling crop.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ * It is the entry point for the crop management.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/crops", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +37,11 @@ public class CropController {
         this.cropCommandService = cropCommandService;
     }
 
+    /**
+     * Handles the creation of a new crop.
+     * @param resource The crop creation command.
+     * @return The ID of the newly created crop.
+     */
     @PostMapping
     public ResponseEntity<CropResource> createCrop(@RequestBody CreateCropResource resource){
         var createCropCommand = CreateCropCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -51,6 +63,10 @@ public class CropController {
         return new ResponseEntity<>(cropResource, HttpStatus.CREATED);
     }
 
+    /**
+     * Handles the retrieval of all crops.
+     * @return A list of all crops.
+     */
     @GetMapping
     public ResponseEntity<List<CropResource>> getAllCrops() {
         var getAllCropsQuery = new GetAllCropsQuery();
@@ -59,6 +75,11 @@ public class CropController {
         return ResponseEntity.ok(profilesResources);
     }
 
+    /**
+     * Handles the retrieval of a crop by its ID.
+     * @param cropId The ID of the crop to retrieve.
+     * @return The crop with the given ID.
+     */
     @GetMapping("/{cropId}")
     public ResponseEntity<CropResource> getCropById(@PathVariable Long cropId) {
         var getCropByIdQuery = new GetCropByIdQuery(cropId);
