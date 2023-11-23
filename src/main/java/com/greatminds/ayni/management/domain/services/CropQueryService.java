@@ -9,6 +9,9 @@ import com.greatminds.ayni.management.domain.model.queries.GetCropByProductIdQue
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for handling crop queries.
+ */
 public interface CropQueryService {
     List<Crop> handle(GetAllCropsQuery query);
     Optional<Crop> handle(GetCropByIdQuery query);
