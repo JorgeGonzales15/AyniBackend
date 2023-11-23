@@ -8,6 +8,9 @@ import com.greatminds.ayni.management.domain.services.ProductQueryService;
 import com.greatminds.ayni.management.infrastructure.persistence.jpa.repositories.CropRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementacion of {@link CropCommandService} that handles the creation of crops.
+ */
 @Service
 public class CropCommandServiceImpl implements CropCommandService {
     private final CropRepository cropRepository;
