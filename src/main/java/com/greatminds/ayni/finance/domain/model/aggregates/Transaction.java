@@ -17,16 +17,16 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
     private String costName;
     private String date;
     private String description;
-    private String type;
+    private String transactionType;
     private Double price;
     private String quantity;
     private Long userId;
 
 
-    public Transaction(String costName, String description, String date, String type, Double price, String quantity, Long userId) {
+    public Transaction(String costName, String description, String date, String transactionType, Double price, String quantity, Long userId) {
         this.costName = costName;
         this.description = description;
-        this.type = type;
+        this.transactionType = transactionType;
         this.price = price;
         this.quantity = quantity;
         this.date=date;
@@ -37,7 +37,7 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
     public Transaction() {
     }
 
-    public Transaction update(String costName, String description, String date, String type, Double price, String quantity) {
+    public Transaction update(String costName, String description, String date, String transactionType, Double price, String quantity) {
         if (costName != null) {
             this.costName = costName;
         }
@@ -47,8 +47,8 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
         if (date != null) {
             this.date = date;
         }
-        if (type != null) {
-            this.type = type;
+        if (transactionType != null) {
+            this.transactionType = transactionType;
         }
         if (price != null) {
             this.price = price;

@@ -3,6 +3,10 @@ package com.greatminds.ayni.shopping.domain.model.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * Represents the sale entity
+ * The structure of the "sales" table in the database is mapped.
+ */
 @Entity
 @Table(name = "sales")
 public class Sale {

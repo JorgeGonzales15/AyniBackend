@@ -5,6 +5,8 @@ import com.greatminds.ayni.management.interfaces.rest.resources.CreateCropResour
 
 public class CreateCropCommandFromResourceAssembler {
     public static CreateCropCommand toCommandFromResource(CreateCropResource resource){
-        return new CreateCropCommand(resource.name(),resource.undergrowth(),resource.fertilize(),resource.oxygenate(),resource.line(),resource.hole(),resource.watered(),resource.pestCleaning(),resource.productId(), resource.userId());
+        return new CreateCropCommand(resource.name(),resource.pickUpWeed(),resource.fertilizeCrop(),resource.oxygenateCrop(),
+                resource.makeCropLine(),resource.makeCropHole(),resource.wateringDays(),resource.pestCleanupDays(),
+                resource.productId(), resource.userId());
     }
 }

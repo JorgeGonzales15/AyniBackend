@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * Controller for handling crops by product.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/products/{productId}/crops", produces= MediaType.APPLICATION_JSON_VALUE)
@@ -24,6 +30,11 @@ public class ProductCropsController {
         this.cropQueryService = cropQueryService;
     }
 
+    /**
+     * Handles the creation of a new crop.
+     * @param productId The product ID.
+     * @return The ID of the newly created crop.
+     */
     @GetMapping
     public ResponseEntity<List<CropResource>> getAllCropsByProductId(@PathVariable Long productId) {
         var getAllCropsByProductIdQuery = new GetAllCropsByProductIdQuery(productId);
@@ -32,6 +43,12 @@ public class ProductCropsController {
         return ResponseEntity.ok(cropsResource);
     }
 
+    /**
+     * Handles the creation of a new crop.
+     * @param productId The product ID.
+     * @param cropId The crop ID.
+     * @return The ID of the newly created crop.
+     */
     @GetMapping("/{cropId}")
     public ResponseEntity<CropResource> getCropByProductIdAndCropId(@PathVariable Long productId, @PathVariable Long cropId) {
         var getCropByProductId = new GetCropByProductIdQuery(productId, cropId);

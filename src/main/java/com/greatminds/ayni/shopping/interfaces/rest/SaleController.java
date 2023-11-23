@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * Controller for sales management.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/sales", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,6 +35,11 @@ public class SaleController {
         this.saleCommandService = saleCommandService;
     }
 
+    /**
+     * Handles the creation of a new sale.
+     * @param resource The sale creation command.
+     * @return The ID of the newly created sale.
+     */
     @PostMapping
     public ResponseEntity<SaleResource> createSale(@RequestBody CreateSaleResource resource){
         var createSaleCommand = CreateSaleCommandFromResourceAssembler.toCommandFromResource(resource);

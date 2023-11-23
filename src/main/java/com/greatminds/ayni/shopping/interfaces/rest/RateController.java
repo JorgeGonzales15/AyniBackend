@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * Controller for rates management.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/rates", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,6 +33,11 @@ public class RateController {
         this.rateCommandService = rateCommandService;
     }
 
+    /**
+     * Handles the creation of a new rate.
+     * @param resource The rate creation command.
+     * @return The ID of the newly created rate.
+     */
     @PostMapping
     public ResponseEntity<RateResource> createRate(@RequestBody CreateRateResource resource){
         var createRateCommand = CreateRateCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -49,6 +58,10 @@ public class RateController {
         return new ResponseEntity<>(rateResource, HttpStatus.CREATED);
     }
 
+    /**
+     * Handles the retrieval of all rates.
+     * @return The list of all rates.
+     */
     @GetMapping
     public ResponseEntity<List<RateResource>> getAllRates(){
         var getAllRatesQuery = new GetAllRatesQuery();
@@ -57,6 +70,11 @@ public class RateController {
         return ResponseEntity.ok(ratesResources);
     }
 
+    /**
+     * Handles the retrieval of a rate by ID.
+     * @param rateId The rate ID.
+     * @return The rate with the given ID.
+     */
     @GetMapping("/{rateId}")
     public ResponseEntity<RateResource> getRateById(@PathVariable Long rateId){
         var getRateByIdQuery = new GetRateByIdQuery(rateId);

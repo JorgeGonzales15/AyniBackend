@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@link RateQueryService} interface.
+ */
 @Service
 public class RateQueryServiceImpl implements RateQueryService {
     private final RateRepository rateRepository;

@@ -20,7 +20,8 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     @Override
     public Long handle(CreateTransactionCommand command) {
-        var transaction = new Transaction(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity(), command.userId());
+        var transaction = new Transaction(command.costName(), command.description(), command.date(), command.transactionType(),
+                command.price(), command.quantity(), command.userId());
         transactionRepository.save(transaction);
         return transaction.getId();
     }
@@ -37,7 +38,9 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
     public Optional<Transaction> handle(UpdateTransactionCommand command) {
         if (!transactionRepository.existsById(command.id())) throw new IllegalArgumentException("Transaction does not exist");
         var transactionToUpdate = transactionRepository.findById(command.id()).get();
-        var updatedTransaction = transactionRepository.save(transactionToUpdate.update(command.costName(), command.description(), command.date(), command.type(), command.price(), command.quantity()));
+        var updatedTransaction = transactionRepository.save(transactionToUpdate.update(command.costName(),
+                command.description(), command.date(), command.transactionType(), command.price(),
+                command.quantity()));
         return Optional.of(updatedTransaction);
     }
 }

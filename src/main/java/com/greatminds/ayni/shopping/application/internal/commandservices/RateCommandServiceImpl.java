@@ -8,6 +8,9 @@ import com.greatminds.ayni.shopping.domain.services.SaleQueryService;
 import com.greatminds.ayni.shopping.infrastructure.persistence.jpa.repositories.RateRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link RateCommandService} interface.
+ */
 @Service
 public class RateCommandServiceImpl implements RateCommandService {
     private final RateRepository rateRepository;

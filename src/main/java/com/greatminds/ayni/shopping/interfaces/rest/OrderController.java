@@ -23,6 +23,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for orders management.
+ * Here is where the endpoints are defined.
+ * This class is responsible for handling the requests and responses.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,6 +41,11 @@ public class OrderController {
         this.orderCommandService = orderCommandService;
     }
 
+    /**
+     * Handles the creation of a new order.
+     * @param resource The order creation command.
+     * @return The ID of the newly created order.
+     */
     @PostMapping
     public ResponseEntity<OrderResource> createOrder(@RequestBody CreateOrderResource resource){
         var createOrderCommand = CreateOrderCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -56,6 +66,11 @@ public class OrderController {
         return new ResponseEntity<>(orderResource, HttpStatus.CREATED);
     }
 
+    /**
+     * Handles the finalization of an order.
+     * @param orderId The order ID.
+     * @return The ID of the finalized order.
+     */
     @PostMapping("/{orderId}/finalizations")
     public ResponseEntity<?> finalizeOrder(@PathVariable Long orderId){
         var finalizeOrderCommand = new FinalizeOrderCommand(orderId);
@@ -63,6 +78,11 @@ public class OrderController {
         return ResponseEntity.ok(finalizedOrderId);
     }
 
+    /**
+     * Handles the qualification of an order.
+     * @param orderId The order ID.
+     * @return The ID of the qualified order.
+     */
     @PostMapping("/{orderId}/qualifications")
     public ResponseEntity<?> qualifyOrder(@PathVariable Long orderId){
         var qualifyOrderCommand = new QualifyOrderCommand(orderId);
@@ -70,6 +90,10 @@ public class OrderController {
         return ResponseEntity.ok(qualifiedOrderId);
     }
 
+    /**
+     * Handles the retrieval of all orders.
+     * @return A list of all orders.
+     */
     @GetMapping
     public ResponseEntity<List<OrderResource>> getAllOrders() {
         var getAllOrdersQuery = new GetAllOrdersQuery();
@@ -78,6 +102,11 @@ public class OrderController {
         return ResponseEntity.ok(ordersResources);
     }
 
+    /**
+     * Handles the retrieval of an order by its ID.
+     * @param orderId The ID of the order to retrieve.
+     * @return The order with the given ID.
+     */
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResource> getOrderById(@PathVariable Long orderId) {
         var getOrderIdByQuery = new GetOrderByIdQuery(orderId);
@@ -89,6 +118,12 @@ public class OrderController {
         return ResponseEntity.ok(orderResource);
     }
 
+    /**
+     * Handles the update of an order.
+     * @param orderId The ID of the order to update.
+     * @param resource The order update command.
+     * @return The updated order.
+     */
     @PutMapping("/{orderId}")
     public ResponseEntity<OrderResource> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderResource resource) {
         try {
@@ -101,6 +136,11 @@ public class OrderController {
         }
     }
 
+    /**
+     * Handles the deletion of an order.
+     * @param orderId The ID of the order to delete.
+     * @return The deleted order.
+     */
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         var getOrderByIdQuery = new GetOrderByIdQuery(orderId);

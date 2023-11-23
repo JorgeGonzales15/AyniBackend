@@ -6,6 +6,9 @@ import com.greatminds.ayni.shopping.domain.services.SaleCommandService;
 import com.greatminds.ayni.shopping.infrastructure.persistence.jpa.repositories.SaleRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link SaleCommandService} interface.
+ */
 @Service
 public class SaleCommandServiceImpl implements SaleCommandService {
 
